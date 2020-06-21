@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:networking/model/author.dart';
 import 'package:networking/network/api.dart';
 
 class AddAuthor extends StatefulWidget {
@@ -7,12 +8,15 @@ class AddAuthor extends StatefulWidget {
 }
 
 class _AddAuthorState extends State<AddAuthor> {
-  String authorName;
-  final key = GlobalKey<ScaffoldState>();
+  String name;
+  String bio;
+  int age;
+
+  final addAuthor = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: key,
+      key: addAuthor,
       appBar: AppBar(
         title: Text('New Author'),
       ),
@@ -23,20 +27,50 @@ class _AddAuthorState extends State<AddAuthor> {
             children: <Widget>[
               TextField(
                 decoration: InputDecoration(
-                    hintText: 'Enter Author name', labelText: 'Author Name'),
+                  labelText: 'Author Name',
+                  hintText: 'Enter Author name',
+                ),
                 onChanged: (value) {
                   setState(() {
-                    authorName = value;
+                    name = value;
+                  });
+                },
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Author Bio',
+                  hintText: 'Enter Author bio',
+                ),
+                maxLines: 5,
+                onChanged: (value) {
+                  setState(() {
+                    bio = value;
+                  });
+                },
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Author Age',
+                  hintText: 'Enter Author age',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    age = int.parse(value);
                   });
                 },
               ),
               RaisedButton(
                 child: Text('Save'),
                 onPressed: () {
-                  API.createAuthor(authorName).then((author) => key.currentState
-                      .showSnackBar(SnackBar(
-                          content: Text(
-                              'new author with id ${author.id} has been created'))));
+                  //send data to the internet (aqueduct server)
+                  API
+                      .createAuthor(Author(name: name, age: age, bio: bio))
+                      .then((author) {
+                    //show snackbar
+                    addAuthor.currentState.showSnackBar(SnackBar(
+                        content: Text(
+                            'the author with id ${author.id} has been created')));
+                  });
                 },
               ),
             ],
