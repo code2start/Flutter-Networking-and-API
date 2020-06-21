@@ -1,4 +1,4 @@
-# demo1
+# Lesson 3
 
 A new Flutter project.
 
