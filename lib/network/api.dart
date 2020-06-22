@@ -21,4 +21,19 @@ class API {
       throw Exception("Can't load author");
     }
   }
+
+  static Future<List<Author>> getAllAuthors() async {
+    //business logic to send data to server
+    final Response response = await get('$_BASE_URL/authors');
+
+    if (response.statusCode == 200) {
+      //print(response.body);
+      //parse json into list of objects
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+      return parsed.map<Author>((item) => Author.fromJson(item)).toList();
+    } else {
+      //print('Error');
+      throw Exception("Can't load author");
+    }
+  }
 }

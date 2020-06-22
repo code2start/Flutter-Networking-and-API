@@ -38,10 +38,9 @@ class _AddAuthorState extends State<AddAuthor> {
               ),
               TextField(
                 decoration: InputDecoration(
-                  labelText: 'Author Bio',
+                  labelText: 'Author bio',
                   hintText: 'Enter Author bio',
                 ),
-                maxLines: 5,
                 onChanged: (value) {
                   setState(() {
                     bio = value;
@@ -50,7 +49,7 @@ class _AddAuthorState extends State<AddAuthor> {
               ),
               TextField(
                 decoration: InputDecoration(
-                  labelText: 'Author Age',
+                  labelText: 'Author age',
                   hintText: 'Enter Author age',
                 ),
                 onChanged: (value) {
@@ -70,6 +69,7 @@ class _AddAuthorState extends State<AddAuthor> {
                     addAuthor.currentState.showSnackBar(SnackBar(
                         content: Text(
                             'the author with id ${author.id} has been created')));
+                    Navigator.pop(context);
                   });
                 },
               ),
