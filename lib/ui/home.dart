@@ -25,33 +25,44 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text('Networking lesson 2'),
       ),
-      body: FutureBuilder<List<Author>>(
-        future: authors,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, i) {
-                  return Card(
-                    child: ListTile(
-                      title: Text(snapshot.data[i].name),
-                      subtitle: Row(
-                        children: <Widget>[
-                          Text(snapshot.data[i].bio),
-                          SizedBox(
-                            width: 100,
+      body: Center(
+        child: FutureBuilder<List<Author>>(
+          future: authors,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, i) {
+                    return Dismissible(
+                      key: ObjectKey(snapshot.data[i].id),
+                      onDismissed: (direction) {
+                        //print(direction.index);
+                        API
+                            .deleteAuthor(snapshot.data[i].id)
+                            .then((value) => value);
+                      },
+                      child: Card(
+                        child: ListTile(
+                          title: Text(snapshot.data[i].name),
+                          subtitle: Row(
+                            children: <Widget>[
+                              Text(snapshot.data[i].bio),
+                              SizedBox(
+                                width: 50,
+                              ),
+                              Text('${snapshot.data[i].age}'),
+                            ],
                           ),
-                          Text('${snapshot.data[i].age}'),
-                        ],
+                        ),
                       ),
-                    ),
-                  );
-                });
-          } else if (snapshot.hasError) {
-            Text('Sorry there is an error');
-          }
-          return CircularProgressIndicator();
-        },
+                    );
+                  });
+            } else if (snapshot.hasError) {
+              return Text('Sorry there is an error');
+            }
+            return CircularProgressIndicator();
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),

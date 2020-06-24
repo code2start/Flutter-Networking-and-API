@@ -69,8 +69,8 @@ class _AddAuthorState extends State<AddAuthor> {
                     addAuthor.currentState.showSnackBar(SnackBar(
                         content: Text(
                             'the author with id ${author.id} has been created')));
-                    Navigator.pop(context);
                   });
+                  Navigator.of(context).pop();
                 },
               ),
             ],

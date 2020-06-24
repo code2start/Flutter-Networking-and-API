@@ -31,6 +31,23 @@ class API {
       //parse json into list of objects
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
       return parsed.map<Author>((item) => Author.fromJson(item)).toList();
+      //return Author.fromJson(json.decode(response.body));
+    } else {
+      //print('Error');
+      throw Exception("Can't load author");
+    }
+  }
+
+  static Future<Response> deleteAuthor(int id) async {
+    //business logic to send data to server
+    final Response response = await delete('$_BASE_URL/authors/$id',
+        headers: <String, String>{
+          'Content-Type': 'application/json;charset=UTF-8'
+        });
+
+    if (response.statusCode == 200) {
+      //print(response.body);
+      return response;
     } else {
       //print('Error');
       throw Exception("Can't load author");
