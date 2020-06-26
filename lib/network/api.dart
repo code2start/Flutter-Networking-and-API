@@ -53,4 +53,22 @@ class API {
       throw Exception("Can't load author");
     }
   }
+
+  static Future<Response> updateAuthor(Author author) async {
+    //business logic to send data to server
+    final Response response = await put('$_BASE_URL/authors/${author.id}',
+        headers: <String, String>{
+          'Content-Type': 'application/json;charset=UTF-8'
+        },
+        body: jsonEncode(author.toJson()));
+
+    if (response.statusCode == 200) {
+      print(response.body);
+      return response;
+      //return Author.fromJson(json.decode(response.body));
+    } else {
+      //print('Error');
+      throw Exception("Can't load author");
+    }
+  }
 }

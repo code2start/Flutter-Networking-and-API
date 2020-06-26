@@ -2,23 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:networking/model/author.dart';
 import 'package:networking/network/api.dart';
 
-class AddAuthor extends StatefulWidget {
+class UpdateAuthor extends StatefulWidget {
+  UpdateAuthor(this.author);
+  final Author author;
   @override
-  _AddAuthorState createState() => _AddAuthorState();
+  _UpdateAuthorState createState() => _UpdateAuthorState();
 }
 
-class _AddAuthorState extends State<AddAuthor> {
+class _UpdateAuthorState extends State<UpdateAuthor> {
   String name;
   String bio;
   int age;
 
-  final addAuthor = GlobalKey<ScaffoldState>();
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      name = widget.author.name;
+      bio = widget.author.bio;
+      age = widget.author.age;
+    });
+  }
+
+  final updateAuthor = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: addAuthor,
+      key: updateAuthor,
       appBar: AppBar(
-        title: Text('New Author'),
+        title: Text('Update Author'),
       ),
       body: Center(
         child: Padding(
@@ -28,33 +40,39 @@ class _AddAuthorState extends State<AddAuthor> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Author Name',
-                  hintText: 'Enter Author name',
+                  hintText: name,
                 ),
                 onChanged: (value) {
                   setState(() {
-                    name = value;
+                    if (value.isNotEmpty) {
+                      name = value;
+                    }
                   });
                 },
               ),
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Author bio',
-                  hintText: 'Enter Author bio',
+                  hintText: bio,
                 ),
                 onChanged: (value) {
                   setState(() {
-                    bio = value;
+                    if (value.isNotEmpty) {
+                      bio = value;
+                    }
                   });
                 },
               ),
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Author age',
-                  hintText: 'Enter Author age',
+                  hintText: '$age',
                 ),
                 onChanged: (value) {
                   setState(() {
-                    age = int.parse(value);
+                    if (value.isNotEmpty) {
+                      age = int.parse(value);
+                    }
                   });
                 },
               ),
@@ -62,13 +80,14 @@ class _AddAuthorState extends State<AddAuthor> {
                 child: Text('Save'),
                 onPressed: () {
                   //send data to the internet (aqueduct server)
-                  API
-                      .createAuthor(Author(name: name, age: age, bio: bio))
-                      .then((author) {
+                  widget.author.name = name;
+                  widget.author.bio = bio;
+                  widget.author.age = age;
+                  API.updateAuthor(widget.author).then((author) {
                     //show snackbar
-                    addAuthor.currentState.showSnackBar(SnackBar(
+                    updateAuthor.currentState.showSnackBar(SnackBar(
                         content: Text(
-                            'the author with id ${author.id} has been created')));
+                            'the author with id ${widget.author.id} has been updated')));
                   });
 
                   Navigator.of(context).pop();

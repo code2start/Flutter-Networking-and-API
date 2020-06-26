@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:networking/model/author.dart';
 import 'package:networking/network/api.dart';
+import 'package:networking/ui/update_author.dart';
 
 import 'add_author.dart';
 
@@ -37,13 +38,12 @@ class _HomeState extends State<Home> {
                       key: ObjectKey(snapshot.data[i].id),
                       onDismissed: (direction) {
                         //print(direction.index);
-                        API
-                            .deleteAuthor(snapshot.data[i].id)
-                            .then((value) => value);
+                        API.deleteAuthor(snapshot.data[i].id);
                       },
                       child: Card(
                         child: ListTile(
-                          title: Text(snapshot.data[i].name),
+                          title: Text(
+                              '${snapshot.data[i].id} - ${snapshot.data[i].name}'),
                           subtitle: Row(
                             children: <Widget>[
                               Text(snapshot.data[i].bio),
@@ -53,6 +53,18 @@ class _HomeState extends State<Home> {
                               Text('${snapshot.data[i].age}'),
                             ],
                           ),
+                          onTap: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    UpdateAuthor(snapshot.data[i]),
+                              ),
+                            );
+                            setState(() {
+                              authors = API.getAllAuthors();
+                            });
+                          },
                         ),
                       ),
                     );
