@@ -1,5 +1,4 @@
 import 'package:chopper/chopper.dart';
-
 part 'author_service.chopper.dart';
 
 @ChopperApi(baseUrl: '/authors')
@@ -8,7 +7,7 @@ abstract class AuthorService extends ChopperService {
   Future<Response> getAllAuthors();
 
   @Get(path: '/{id}')
-  Future<Response> getAuthorById(@Path('id') int id);
+  Future<Response> getAuthorById(@Path() int id);
 
   @Post()
   Future<Response> createAuthor(@Body() Map<String, dynamic> author);
