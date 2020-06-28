@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:networking/network/author_service.dart';
+import 'package:networking/ui/author_details.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -42,13 +43,18 @@ class _HomeState extends State<Home> {
                         title: Text(authors[i]['name']),
                         subtitle: Row(
                           children: <Widget>[
-                            Text(authors[i]['bio']),
+                            Text(authors[i]['bio'].substring(1, 30)),
                             SizedBox(
                               width: 100,
                             ),
-                            Text('${authors[i]['age']}'),
+                            Text(authors[i]['age'].toString()),
                           ],
                         ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  AuthorDetails(authors[i]['id'])));
+                        },
                       ),
                     );
                   });
