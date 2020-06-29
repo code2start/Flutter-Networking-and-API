@@ -1,9 +1,10 @@
 import 'dart:convert';
-
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:networking/network/author_service.dart';
-import 'package:networking/ui/author_details.dart';
+import 'package:networking/ui/add_author.dart';
+
+import 'author_details.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   AuthorService authorService;
   Future<Response> authorResponse;
+  final homeKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -24,8 +26,27 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: homeKey,
       appBar: AppBar(
         title: Text('All Authors'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () async {
+              await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddAuthor(),
+                  ));
+              setState(() {
+                authorResponse = authorService.getAllAuthors();
+              });
+              homeKey.currentState.showSnackBar(SnackBar(
+                content: Text('Your author has been added successfully'),
+              ));
+            },
+          )
+        ],
       ),
       body: Center(
         child: FutureBuilder<Response>(
@@ -43,7 +64,7 @@ class _HomeState extends State<Home> {
                         title: Text(authors[i]['name']),
                         subtitle: Row(
                           children: <Widget>[
-                            Text(authors[i]['bio'].substring(1, 30)),
+                            Text(authors[i]['bio'].substring(0, 30)),
                             SizedBox(
                               width: 100,
                             ),
@@ -51,9 +72,13 @@ class _HomeState extends State<Home> {
                           ],
                         ),
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
                               builder: (context) =>
-                                  AuthorDetails(authors[i]['id'])));
+                                  AuthorDetails(authors[i]['id']),
+                            ),
+                          );
                         },
                       ),
                     );

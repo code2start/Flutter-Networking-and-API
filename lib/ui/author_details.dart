@@ -41,14 +41,14 @@ class _AuthorDetailsState extends State<AuthorDetails> {
                     author['name'],
                     style: Theme.of(context).textTheme.headline3,
                   ),
-                  SizedBox(
-                    height: 50,
-                  ),
                   Text(
                     author['bio'],
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
-                  Text('age is ${author['age']}'),
+                  Text(
+                    'age is ${author['age']}',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
                 ],
               );
             } else if (snapshot.hasError) {
