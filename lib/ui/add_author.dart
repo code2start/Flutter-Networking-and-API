@@ -47,11 +47,11 @@ class _AddAuthorState extends State<AddAuthor> {
             RaisedButton(
               child: Text('Add'),
               onPressed: () {
-                var author = {'name': name, 'age': age, 'bio': bio};
+                var author = {"name": name, "age": age, "bio": bio};
                 AuthorService.create()..createAuthor(author);
                 Navigator.pop(context);
               },
-            ),
+            )
           ],
         ),
       ),
