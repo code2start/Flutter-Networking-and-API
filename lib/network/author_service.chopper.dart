@@ -38,4 +38,11 @@ class _$AuthorService extends AuthorService {
     final $request = Request('DELETE', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
+
+  Future<Response> updateAuthor(int id, Map<String, dynamic> author) {
+    final $url = '/authors/${id}';
+    final $body = author;
+    final $request = Request('PUT', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
 }

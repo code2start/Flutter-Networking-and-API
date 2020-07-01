@@ -15,6 +15,10 @@ abstract class AuthorService extends ChopperService {
   @Delete(path: '/{id}')
   Future<Response> deleteAuthor(@Path() int id);
 
+  @Put(path: '/{id}')
+  Future<Response> updateAuthor(
+      @Path() int id, @Body() Map<String, dynamic> author);
+
   static AuthorService create() {
     final client = ChopperClient(
         baseUrl: 'http://10.0.2.2:8888',

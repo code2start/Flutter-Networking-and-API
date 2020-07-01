@@ -3,6 +3,7 @@ import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:networking/main.dart';
 import 'package:networking/network/author_service.dart';
+import 'package:networking/ui/update_author.dart';
 
 import 'add_author.dart';
 import 'author_details.dart';
@@ -61,21 +62,47 @@ class _HomeState extends State<Home> {
                   itemCount: authors.length,
                   itemBuilder: (context, i) {
                     return Dismissible(
-                      key: ObjectKey(authors[i]['id']),
                       onDismissed: (dir) {
                         authorService.deleteAuthor(authors[i]['id']);
                       },
+                      key: ObjectKey(authors[i]['id']),
                       child: Card(
                         margin: EdgeInsets.all(8.0),
                         child: ListTile(
                           title: Text(authors[i]['name']),
                           subtitle: Row(
                             children: <Widget>[
-                              Text(authors[i]['bio'].substring(0, 30)),
+                              Expanded(
+                                  child:
+                                      Text(authors[i]['bio'].substring(0, 30))),
                               SizedBox(
                                 width: 100,
                               ),
                               Text(authors[i]['age'].toString()),
+                              IconButton(
+                                icon: Icon(Icons.edit),
+                                onPressed: () async {
+                                  // open edit screen
+                                  homeKey.currentState.showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          'Author has been updated succeffully'),
+                                    ),
+                                  );
+                                  Map author = authors[i];
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          UpdateAuthor(author),
+                                    ),
+                                  );
+                                  setState(() {
+                                    authorResponse =
+                                        authorService.getAllAuthors();
+                                  });
+                                },
+                              ),
                             ],
                           ),
                           onTap: () {
