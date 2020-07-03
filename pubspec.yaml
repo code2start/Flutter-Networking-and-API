@@ -29,6 +29,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
   chopper: ^2.0.0
+  json_serializable: ^3.3.0
 
 dev_dependencies:
   flutter_test:

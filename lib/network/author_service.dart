@@ -23,7 +23,10 @@ abstract class AuthorService extends ChopperService {
     final client = ChopperClient(
         baseUrl: 'http://10.0.2.2:8888',
         services: [_$AuthorService()],
-        converter: JsonConverter());
+        converter: JsonConverter(),
+        interceptors: [
+          HttpLoggingInterceptor(),
+        ]);
     return _$AuthorService(client);
   }
 }

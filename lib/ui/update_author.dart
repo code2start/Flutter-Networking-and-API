@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:networking/network/author_service.dart';
 
 class UpdateAuthor extends StatefulWidget {
-  final Map<String, dynamic> author;
   UpdateAuthor(this.author);
-
+  final Map<String, dynamic> author;
   @override
   _UpdateAuthorState createState() => _UpdateAuthorState();
 }
@@ -68,8 +67,8 @@ class _UpdateAuthorState extends State<UpdateAuthor> {
               child: Text('Save'),
               onPressed: () {
                 var author = widget.author;
-                author['name'] = name;
                 author['age'] = age;
+                author['name'] = name;
                 author['bio'] = bio;
                 AuthorService.create()..updateAuthor(author['id'], author);
                 Navigator.pop(context);

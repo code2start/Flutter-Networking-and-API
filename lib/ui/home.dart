@@ -82,19 +82,18 @@ class _HomeState extends State<Home> {
                               IconButton(
                                 icon: Icon(Icons.edit),
                                 onPressed: () async {
-                                  // open edit screen
+                                  //open update screen
                                   homeKey.currentState.showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                          'Author has been updated succeffully'),
+                                          'Your author has been updated successffully'),
                                     ),
                                   );
-                                  Map author = authors[i];
                                   await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          UpdateAuthor(author),
+                                          UpdateAuthor(authors[i]),
                                     ),
                                   );
                                   setState(() {
@@ -102,7 +101,7 @@ class _HomeState extends State<Home> {
                                         authorService.getAllAuthors();
                                   });
                                 },
-                              ),
+                              )
                             ],
                           ),
                           onTap: () {
