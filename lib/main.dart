@@ -8,6 +8,7 @@ main() {
   Logger.root.onRecord.listen((event) {
     print('${event.level.name} ${event.message}');
   });
+  
 }
 
 class MyApp extends StatelessWidget {

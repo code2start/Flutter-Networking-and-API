@@ -25,7 +25,8 @@ abstract class AuthorService extends ChopperService {
         services: [_$AuthorService()],
         converter: JsonConverter(),
         interceptors: [
-          HttpLoggingInterceptor(),
+          // HttpLoggingInterceptor(),
+          CurlInterceptor()
         ]);
     return _$AuthorService(client);
   }
